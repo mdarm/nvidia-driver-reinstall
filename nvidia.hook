@@ -6,4 +6,4 @@ Target=linux
 [Action]
 Description=Reinstalling NVIDIA drivers after kernel update...
 When=PostTransaction
-Exec=~/.config/script/reinstall_nvidia.sh
+Exec=~/.config/scripts/reinstall_nvidia.sh

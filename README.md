@@ -1,12 +1,12 @@
 # Arch Linux NVIDIA Driver Reinstallation on Kernel Update
 
-This guide provides an automated solution for the issue where NVIDIA drivers break upon kernel updates in Arch Linux. By setting up a pacman hook, NVIDIA drivers are automatically reinstalled from the AUR every time the kernel updates.
+This guide provides an automated solution for the issue where NVIDIA drivers break upon kernel updates in Arch Linux. The error one usually gets is
 
-This solution is based on the NVIDIA's official [read me file](https://download.nvidia.com/XFree86/Linux-x86_64/510.60.02/README/commonproblems.html) of the driver, where it is stated that
+> NVIDIA-SMI has failed because it couldn't communicate with the NVIDIA driver.
 
-```
-If you upgrade your kernel, then the simplest solution is to reinstall the driver.
-```
+By setting up a pacman hook, NVIDIA drivers are automatically reinstalled from the AUR every time the kernel updates. This solution is based on the NVIDIA's official [read me file](https://download.nvidia.com/XFree86/Linux-x86_64/510.60.02/README/commonproblems.html) of the driver, where it is stated that
+
+> If you upgrade your kernel, then the simplest solution is to reinstall the driver.
 
 ## Prerequisites
 
