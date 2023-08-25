@@ -20,35 +20,46 @@ By setting up a pacman hook, NVIDIA drivers are automatically reinstalled from t
 
 ### 1. Create the NVIDIA driver reinstallation script:
 
-1. Create a new script named `reinstall_nvidia.sh` with the following content:
+1. Create a new script named `reinstall-nvidia.sh` with the following content:
 
     ```bash
     #!/bin/bash
 
     # Uninstall existing NVIDIA drivers
-    sudo pacman -Rns nvidia nvidia-utils
+    sudo pacman -Rns nvidia-beta nvidia-utils-beta nvidia-settings-beta
 
-    # Clean the cache to ensure we're getting the latest from AUR
-    rm -rf /tmp/nvidia_pkgbuild
-    mkdir /tmp/nvidia_pkgbuild
+    # Define a function to download, build, and install a package from AUR
+    install_from_aur() {
+        pkgname=$1
+        
+        # Clean the cache to ensure we're getting the latest from AUR
+        rm -rf /tmp/${pkgname}_pkgbuild
+        mkdir /tmp/${pkgname}_pkgbuild
 
-    # Download the NVIDIA drivers from AUR
-    git clone https://aur.archlinux.org/nvidia.git /tmp/nvidia_pkgbuild
+        git clone https://aur.archlinux.org/${pkgname}.git /tmp/${pkgname}_pkgbuild
 
-    # Change to the directory
-    cd /tmp/nvidia_pkgbuild
+        # Change to the directory
+        pushd /tmp/${pkgname}_pkgbuild
 
-    # Make the package
-    makepkg -si --noconfirm
+        # Make the package and install it
+        makepkg -si --noconfirm
 
-    # Clean up
-    rm -rf /tmp/nvidia_pkgbuild
+        # Return to the original directory
+        popd
+
+        # Clean up
+        rm -rf /tmp/${pkgname}_pkgbuild
+    }
+
+    # Reinstall the packages from AUR
+    install_from_aur nvidia-utils-beta
+    install_from_aur nvidia-beta
     ```
 
 2. Make the script executable:
 
     ```bash
-    chmod +x /path/to/reinstall_nvidia.sh
+    chmod +x /path/to/reinstall-nvidia.sh
     ```
 
 ### 2. Create a pacman hook:
@@ -73,9 +84,9 @@ By setting up a pacman hook, NVIDIA drivers are automatically reinstalled from t
     Exec=/path/to/reinstall_nvidia.sh
     ```
 
-    **Note:** Replace `/path/to/` with the actual path where you saved the `reinstall_nvidia.sh` script.
+    **Note:** Replace `/path/to/` with the actual path where you saved the `reinstall-nvidia.sh` script.
 
-## Conclusion
+## Takeaway 
 
 With this setup, every time the `linux` package (i.e., the kernel) upgrades, the hook will automatically trigger the NVIDIA driver reinstallation script once the kernel update transaction completes.
 
