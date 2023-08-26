@@ -81,7 +81,7 @@ By setting up a pacman hook, NVIDIA drivers are automatically reinstalled from t
     [Action]
     Description=Reinstalling NVIDIA drivers after kernel update...
     When=PostTransaction
-    Exec=/path/to/reinstall_nvidia.sh
+    Exec=/path/to/reinstall-nvidia.sh
     ```
 
     **Note:** Replace `/path/to/` with the actual path where you saved the `reinstall-nvidia.sh` script.
