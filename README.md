@@ -25,6 +25,11 @@ By setting up a pacman hook, NVIDIA drivers are automatically reinstalled from t
     ```bash
     #!/bin/bash
 
+    # Wait until the pacman database lock is released
+    while [ -f /var/lib/pacman/db.lck ]; do
+        sleep 5
+    done
+
     # Uninstall existing NVIDIA drivers
     sudo pacman -Rns nvidia-beta nvidia-utils-beta nvidia-settings-beta
 
